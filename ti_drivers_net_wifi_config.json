@@ -26,7 +26,7 @@
 		"UseKey"						:false,
         "KeyFileLocation"				:"",
 		"ServicePackFileLocation"		:"",
-		"UserFileRoot"		            :"/Users/shialacampos/workspace_v12/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang/userFiles"
+		"UserFileRoot"		            :"/Users/shialacampos/workspace_v12/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang/userFiles"
     },
     "systemFiles":{
         "FILES":{

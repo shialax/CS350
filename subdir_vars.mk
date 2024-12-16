@@ -8,11 +8,11 @@ CMD_SRCS += \
 
 SYSCFG_SRCS += \
 ../image.syscfg \
-../uart2echo.syscfg 
+../pwmled2.syscfg 
 
 C_SRCS += \
 ../main_nortos.c \
-../uart2echo.c \
+../pwmled2.c \
 ./syscfg/ti_drivers_config.c 
 
 GEN_FILES += \
@@ -24,12 +24,12 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./main_nortos.d \
-./uart2echo.d \
+./pwmled2.d \
 ./syscfg/ti_drivers_config.d 
 
 OBJS += \
 ./main_nortos.o \
-./uart2echo.o \
+./pwmled2.o \
 ./syscfg/ti_drivers_config.o 
 
 GEN_MISC_FILES += \
@@ -44,7 +44,7 @@ GEN_MISC_DIRS__QUOTED += \
 
 OBJS__QUOTED += \
 "main_nortos.o" \
-"uart2echo.o" \
+"pwmled2.o" \
 "syscfg/ti_drivers_config.o" 
 
 GEN_MISC_FILES__QUOTED += \
@@ -55,7 +55,7 @@ GEN_MISC_FILES__QUOTED += \
 
 C_DEPS__QUOTED += \
 "main_nortos.d" \
-"uart2echo.d" \
+"pwmled2.d" \
 "syscfg/ti_drivers_config.d" 
 
 GEN_FILES__QUOTED += \
@@ -63,11 +63,11 @@ GEN_FILES__QUOTED += \
 
 SYSCFG_SRCS__QUOTED += \
 "../image.syscfg" \
-"../uart2echo.syscfg" 
+"../pwmled2.syscfg" 
 
 C_SRCS__QUOTED += \
 "../main_nortos.c" \
-"../uart2echo.c" \
+"../pwmled2.c" \
 "./syscfg/ti_drivers_config.c" 
 
 

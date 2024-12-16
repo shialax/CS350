@@ -36,9 +36,6 @@ extern "C" {
 /*
  *  ======== GPIO ========
  */
-extern const uint_least8_t CONFIG_GPIO_LED_0_CONST;
-#define CONFIG_GPIO_LED_0 9
-
 /* The range of pins available on this device */
 extern const uint_least8_t GPIO_pinLowerBound;
 extern const uint_least8_t GPIO_pinUpperBound;
@@ -52,17 +49,16 @@ extern const uint_least8_t GPIO_pinUpperBound;
 
 
 /*
- *  ======== UART2 ========
+ *  ======== PWM ========
  */
 
-/*
- *  TX: P55
- *  RX: P57
- *  XDS110 UART
- */
-extern const uint_least8_t                  CONFIG_UART2_0_CONST;
-#define CONFIG_UART2_0                      0
-#define CONFIG_TI_DRIVERS_UART2_COUNT       1
+/* P01, LaunchPad LED D9 (Yellow) */
+extern const uint_least8_t              CONFIG_PWM_0_CONST;
+#define CONFIG_PWM_0                    0
+/* P02, LaunchPad LED D8 (Green) */
+extern const uint_least8_t              CONFIG_PWM_1_CONST;
+#define CONFIG_PWM_1                    1
+#define CONFIG_TI_DRIVERS_PWM_COUNT     2
 
 
 /*

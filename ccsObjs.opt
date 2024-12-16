@@ -1,5 +1,5 @@
 "./main_nortos.o"
-"./uart2echo.o"
+"./pwmled2.o"
 "./syscfg/ti_drivers_config.o"
 "../cc32xxs_nortos.cmd"
 -lti_utils_build_linker.cmd.genlibs
