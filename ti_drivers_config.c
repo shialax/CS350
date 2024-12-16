@@ -18,6 +18,45 @@
 #include "ti_drivers_config.h"
 
 /*
+ *  =============================== DMA ===============================
+ */
+
+#include <ti/drivers/dma/UDMACC32XX.h>
+#include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/inc/hw_types.h>
+#include <ti/devices/cc32xx/driverlib/rom_map.h>
+#include <ti/devices/cc32xx/driverlib/udma.h>
+
+/* Ensure DMA control table is aligned as required by the uDMA Hardware */
+static tDMAControlTable dmaControlTable[64] __attribute__ ((aligned (1024)));
+
+/* This is the handler for the uDMA error interrupt. */
+static void dmaErrorFxn(uintptr_t arg)
+{
+    int status = MAP_uDMAErrorStatusGet();
+    MAP_uDMAErrorStatusClear();
+
+    /* Suppress unused variable warning */
+    (void)status;
+
+    while (1);
+}
+
+UDMACC32XX_Object udmaCC3220SObject;
+
+const UDMACC32XX_HWAttrs udmaCC3220SHWAttrs = {
+    .controlBaseAddr = (void *)dmaControlTable,
+    .dmaErrorFxn     = (UDMACC32XX_ErrorFxn)dmaErrorFxn,
+    .intNum          = INT_UDMAERR,
+    .intPriority     = (~0)
+};
+
+const UDMACC32XX_Config UDMACC32XX_config = {
+    .object  = &udmaCC3220SObject,
+    .hwAttrs = &udmaCC3220SHWAttrs
+};
+
+/*
  *  =============================== GPIO ===============================
  */
 
@@ -42,7 +81,7 @@ GPIO_PinConfig gpioPinConfigs[33] = {
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* CONFIG_GPIO_LED_0 */
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
@@ -83,7 +122,7 @@ GPIO_CallbackFxn gpioCallbackFunctions[33];
  */
 void* gpioUserArgs[33];
 
-
+const uint_least8_t CONFIG_GPIO_LED_0_CONST = CONFIG_GPIO_LED_0;
 
 /*
  *  ======== GPIO_config ========
@@ -94,60 +133,6 @@ const GPIO_Config GPIO_config = {
     .userArgs = gpioUserArgs,
     .intPriority = (~0)
 };
-
-/*
- *  =============================== PWM ===============================
- */
-
-#include <ti/drivers/PWM.h>
-#include <ti/drivers/pwm/PWMTimerCC32XX.h>
-
-#define CONFIG_PWM_COUNT 2
-
-/*
- *  ======== pwmTimerCC32XXObjects ========
- */
-PWMTimerCC32XX_Object pwmTimerCC32XXObjects[CONFIG_PWM_COUNT];
-
-/*
- *  ======== pwmTimerCC32XXHWAttrs ========
- */
-const PWMTimerCC32XX_HWAttrsV2 pwmTimerCC32XXHWAttrs[CONFIG_PWM_COUNT] = {
-    /* CONFIG_PWM_0 */
-    /* LaunchPad LED D9 (Yellow) */
-    {
-        .pwmPin = PWMTimerCC32XX_PIN_01, /* 01 */
-    },
-    /* CONFIG_PWM_1 */
-    /* LaunchPad LED D8 (Green) */
-    {
-        .pwmPin = PWMTimerCC32XX_PIN_02, /* 02 */
-    },
-};
-
-/*
- *  ======== PWM_config ========
- */
-const PWM_Config PWM_config[CONFIG_PWM_COUNT] = {
-    /* CONFIG_PWM_0 */
-    /* LaunchPad LED D9 (Yellow) */
-    {
-        .fxnTablePtr = &PWMTimerCC32XX_fxnTable,
-        .object = &pwmTimerCC32XXObjects[CONFIG_PWM_0],
-        .hwAttrs = &pwmTimerCC32XXHWAttrs[CONFIG_PWM_0]
-    },
-    /* CONFIG_PWM_1 */
-    /* LaunchPad LED D8 (Green) */
-    {
-        .fxnTablePtr = &PWMTimerCC32XX_fxnTable,
-        .object = &pwmTimerCC32XXObjects[CONFIG_PWM_1],
-        .hwAttrs = &pwmTimerCC32XXHWAttrs[CONFIG_PWM_1]
-    },
-};
-
-const uint_least8_t CONFIG_PWM_0_CONST = CONFIG_PWM_0;
-const uint_least8_t CONFIG_PWM_1_CONST = CONFIG_PWM_1;
-const uint_least8_t PWM_count = CONFIG_PWM_COUNT;
 
 /*
  *  =============================== Power ===============================
@@ -184,6 +169,57 @@ const PowerCC32XX_ConfigV1 PowerCC32XX_config = {
     .pinParkDefs               = parkInfo,
     .numPins                   = 31
 };
+
+/*
+ *  =============================== UART2 ===============================
+ */
+
+#include <ti/drivers/UART2.h>
+#include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/inc/hw_memmap.h>
+#include <ti/drivers/uart2/UART2CC32XX.h>
+
+#define CONFIG_UART2_COUNT 1
+
+#define UART0_BASE UARTA0_BASE
+#define UART1_BASE UARTA1_BASE
+#define INT_UART0  INT_UARTA0
+#define INT_UART1  INT_UARTA1
+
+static unsigned char uart2RxRingBuffer0[32];
+/* TX ring buffer allocated to be used for nonblocking mode */
+static unsigned char uart2TxRingBuffer0[32];
+
+
+UART2CC32XX_Object uart2CC32XXObjects0;
+
+static const UART2CC32XX_HWAttrs uart2CC32XXHWAttrs0 = {
+    .baseAddr           = UART0_BASE,
+    .intNum             = INT_UART0,
+    .intPriority        = (~0),
+    .flowControl        = UART2_FLOWCTRL_NONE,
+    .rxDmaChannel       = UDMA_CH8_UARTA0_RX,
+    .txDmaChannel       = UDMA_CH9_UARTA0_TX,
+    .rxPin              = UART2CC32XX_PIN_57_UART0_RX,
+    .txPin              = UART2CC32XX_PIN_55_UART0_TX,
+    .ctsPin             = UART2CC32XX_PIN_UNASSIGNED,
+    .rtsPin             = UART2CC32XX_PIN_UNASSIGNED,
+    .rxBufPtr           = uart2RxRingBuffer0,
+    .rxBufSize          = sizeof(uart2RxRingBuffer0),
+    .txBufPtr           = uart2TxRingBuffer0,
+    .txBufSize          = sizeof(uart2TxRingBuffer0)
+  };
+
+const UART2_Config UART2_config[CONFIG_UART2_COUNT] = {
+    {   /* CONFIG_UART2_0 */
+        .object      = &uart2CC32XXObjects0,
+        .hwAttrs     = &uart2CC32XXHWAttrs0
+    },
+};
+
+const uint_least8_t CONFIG_UART2_0_CONST = CONFIG_UART2_0;
+const uint_least8_t UART2_count = CONFIG_UART2_COUNT;
+
 
 #include <ti/drivers/power/PowerCC32XX.h>
 

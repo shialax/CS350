@@ -1,6 +1,6 @@
 ## Example Summary
 
-Sample application to control on-board LEDs with the PWM driver.
+Example that uses the UART2 driver in blocking mode to echo back to the console.
 
 ## Peripherals & Pin Assignments
 
@@ -11,9 +11,8 @@ files. Additionally, the System Configuration file (\*.syscfg) present in the
 project may be opened with SysConfig's graphical user interface to determine
 pins and resources used.
 
-
-* `CONFIG_PWM_0` - PWM instance used to control brightness of LED
-* `CONFIG_PWM_1` - PWM instance used to control brightness of LED
+* `CONFIG_GPIO_LED_0` - Indicates the UART2 driver was initialized within `main()`
+* `CONFIG_UART2_0` - Used to echo characters from host serial session
 
 ## BoosterPacks, Board Resources & Jumper Settings
 
@@ -28,25 +27,39 @@ The Board.html can also be found in your SDK installation:
 
         <SDK_INSTALL_DIR>/source/ti/boards/<BOARD>
 
+
 ## Example Usage
 
-* Run the example.
+* Open a serial session (e.g. [`PuTTY`](http://www.putty.org/ "PuTTY's
+Homepage"), etc.) to the appropriate COM port.
+    * The COM port can be determined via Device Manager in Windows or via
+`ls /dev/tty*` in Linux.
 
-* The onboard LEDs will slowly vary in intensity.
+The connection should have the following settings
+```
+    Baud-rate:  115200
+    Data bits:       8
+    Stop bits:       1
+    Parity:       None
+    Flow Control: None
+```
 
-* Both LEDs connected to `CONFIG_PWM_0` and `CONFIG_PWM_1` will fade-in and
-  fade-out when running the application.
+* Run the example. `CONFIG_GPIO_LED_0` turns ON to indicate driver
+initialization is complete.
+
+* The target echoes back any character that is typed in the serial session.
+
+* If the serial session is started before the target completes initialization,
+the following is displayed:
+`Echoing characters:`
 
 ## Application Design Details
 
-This application uses one thread, `mainThread` , which performs the following
-actions:
+* This example shows how to initialize the UART2 driver in blocking read
+and write mode and echo characters back to a console.
 
-1. Opens and initializes PWM driver objects.
-
-2. Uses the PWM driver to change the intensity of the LEDs.
-
-3. The thread sleeps for 50 milliseconds before changing LED intensity again.
+* A single thread, `mainThread`, reads a character from `CONFIG_UART2_0` and writes it
+back.
 
 FreeRTOS:
 

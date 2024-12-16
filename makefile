@@ -9,7 +9,7 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./main_nortos.o" \
-"./pwmled2.o" \
+"./uart2echo.o" \
 "./syscfg/ti_drivers_config.o" \
 "../cc32xxs_nortos.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -122,60 +122,60 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out \
+uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out \
 
 EXE_OUTPUTS__QUOTED += \
-"pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out" \
+"uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out" \
 
-CUSTOM_TOOL_OUTPUTS_1176396339 += \
-pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin \
+CUSTOM_TOOL_OUTPUTS_1022550156 += \
+uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin \
 
-CUSTOM_TOOL_OUTPUTS_1176396339__QUOTED += \
-"pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin" \
+CUSTOM_TOOL_OUTPUTS_1022550156__QUOTED += \
+"uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin" \
 
-CUSTOM_TOOL_OUTPUTS_1542740777 += \
-syscfg/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.sli \
+CUSTOM_TOOL_OUTPUTS_987063734 += \
+syscfg/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.sli \
 
-CUSTOM_TOOL_OUTPUTS_1542740777__QUOTED += \
-"syscfg/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.sli" \
+CUSTOM_TOOL_OUTPUTS_987063734__QUOTED += \
+"syscfg/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.sli" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out" secondary-outputs
+	@$(MAKE) --no-print-directory -Onone "uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out" secondary-outputs
 
 # Tool invocations
-pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/bin/tiarmclang" -mcpu=cortex-m4 -mfloat-abi=soft -mfpu=none -mlittle-endian -mthumb -Oz -DDeviceFamily_CC3220 -DNORTOS_SUPPORT -gdwarf-3 -march=armv7e-m -Wl,-m"pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.map" -Wl,-i"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/source" -Wl,-i"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/kernel/nortos" -Wl,-i"/Users/shialacampos/workspace_v12/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg" -Wl,-i"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="pwmled2_CC3220S_LAUNCHXL_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out" $(ORDERED_OBJS)
+	"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/bin/tiarmclang" -mcpu=cortex-m4 -mfloat-abi=soft -mfpu=none -mlittle-endian -mthumb -Oz -DDeviceFamily_CC3220 -DNORTOS_SUPPORT -gdwarf-3 -march=armv7e-m -Wl,-m"uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.map" -Wl,-i"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/source" -Wl,-i"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/kernel/nortos" -Wl,-i"/Users/shialacampos/workspace_v12/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg" -Wl,-i"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="uart2echo_CC3220S_LAUNCHXL_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin: $(EXE_OUTPUTS) pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out
+uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin: $(EXE_OUTPUTS) uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: TI Arm ObjCopy'
-	"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/bin/tiarmobjcopy" -O binary --only-section .text --only-section .const --only-section .cinit --only-section .rodata --only-section .resetVecs "pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.out" "pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin"
+	"/Applications/ti/ccs1250/ccs/tools/compiler/ti-cgt-armllvm_3.2.0.LTS/bin/tiarmobjcopy" -O binary --only-section .text --only-section .const --only-section .cinit --only-section .rodata --only-section .resetVecs "uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.out" "uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin"
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 
-syscfg/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.sli: $(EXE_OUTPUTS) pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin syscfg/ti_drivers_net_wifi_config.json
+syscfg/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.sli: $(EXE_OUTPUTS) uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin syscfg/ti_drivers_net_wifi_config.json
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: Image Creator'
-	"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/source/ti/drivers/net/imagecreator/bin/SLImageCreator" syscfg create_image --sdk_path "/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13" --json "/Users/shialacampos/workspace_v12/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg/ti_drivers_net_wifi_config.json" --file "/Users/shialacampos/workspace_v12/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.sli" --mcu "/Users/shialacampos/workspace_v12/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/pwmled2_CC3220S_LAUNCHXL_nortos_ticlang.bin"
+	"/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13/source/ti/drivers/net/imagecreator/bin/SLImageCreator" syscfg create_image --sdk_path "/Users/shialacampos/ti/simplelink_cc32xx_sdk_7_10_00_13" --json "/Users/shialacampos/workspace_v12/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg/ti_drivers_net_wifi_config.json" --file "/Users/shialacampos/workspace_v12/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/syscfg/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.sli" --mcu "/Users/shialacampos/workspace_v12/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang/MCU+Image/uart2echo_CC3220S_LAUNCHXL_nortos_ticlang.bin"
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(CUSTOM_TOOL_OUTPUTS_1542740777__QUOTED)$(EXE_OUTPUTS__QUOTED)$(CUSTOM_TOOL_OUTPUTS_1176396339__QUOTED)
-	-$(RM) "main_nortos.o" "pwmled2.o" "syscfg/ti_drivers_config.o" 
-	-$(RM) "main_nortos.d" "pwmled2.d" "syscfg/ti_drivers_config.d" 
+	-$(RM) $(CUSTOM_TOOL_OUTPUTS_1022550156__QUOTED)$(GEN_MISC_FILES__QUOTED)$(CUSTOM_TOOL_OUTPUTS_987063734__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
+	-$(RM) "main_nortos.o" "uart2echo.o" "syscfg/ti_drivers_config.o" 
+	-$(RM) "main_nortos.d" "uart2echo.d" "syscfg/ti_drivers_config.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '
 
-secondary-outputs: $(CUSTOM_TOOL_OUTPUTS_1176396339) $(CUSTOM_TOOL_OUTPUTS_1542740777)
+secondary-outputs: $(CUSTOM_TOOL_OUTPUTS_1022550156) $(CUSTOM_TOOL_OUTPUTS_987063734)
 
 .PHONY: all clean dependents
 .SECONDARY:
