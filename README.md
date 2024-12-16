@@ -1,4 +1,4 @@
-First Project
+## First Project
 Summary and Problem Statement
 This project involved the development of embedded system functionality to implement a thermostat controller using a task scheduler and a state machine. The primary goal was to handle real-time tasks like temperature monitoring, LED control, and UART-based reporting while ensuring the system operates efficiently and reliably. The thermostat serves as an example of a system that simulates heater control based on temperature set-point adjustments via button presses. It also establishes bidirectional communication through UART, encoding received characters and transmitting system state information.
 
@@ -33,7 +33,7 @@ Scalable Architecture: The task scheduler was designed with scalability in mind,
 Coding Standards: Following consistent naming conventions, indentation, and logical grouping of functionality enhanced readability and reduced the potential for errors.
 
 
-Second Project
+## Second Project
 
 ### Project Summary and Problem Solving
 The project involved developing code to control the Pulse Width Modulation (PWM) functionality for LEDs, with the LEDs alternating between 10% and 90% duty cycles. The primary problem being solved was the ability to create a consistent alternating pattern using PWM signals to control the brightness of LEDs. This allows the LEDs to dim and brighten smoothly based on the duty cycle, demonstrating how PWM can be used to modulate light output in embedded systems.
